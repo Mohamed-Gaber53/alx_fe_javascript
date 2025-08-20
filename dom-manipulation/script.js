@@ -8,7 +8,7 @@ let quoteDisplay = document.getElementById("quoteDisplay");
 let newQuote = document.getElementById("newQuote");
 let container = document.getElementById("container");
 
-function displayRandomQuote() {
+function showRandomQuote() {
     if (quotes.length === 0) {
         quoteDisplay.innerText = "No quotes available. Please add one!";
         return;
@@ -19,7 +19,7 @@ function displayRandomQuote() {
     quoteDisplay.innerText = `"${randomQuote.text}" — (${randomQuote.category})`;
 }
 
-newQuote.addEventListener("click", displayRandomQuote);
+newQuote.addEventListener("click", showRandomQuote);
 
 function addQuote() {
     // مسح أي رسالة قديمة قبل عرض جديدة
@@ -75,4 +75,5 @@ function message(msg, type) {
         }
     }, 4000);
 }
+
 
