@@ -11,7 +11,6 @@ let quotes = [
 // ----------------------
 let quoteDisplay = document.getElementById("quoteDisplay");
 let newQuoteBtn = document.getElementById("newQuote");
-let addQuoteBtn = document.getElementById("addQuote");
 let container = document.getElementById("container");
 let exportBtn = document.getElementById("exportQuotes");
 let importFileInput = document.getElementById("importFile");
@@ -51,6 +50,10 @@ function showRandomQuote() {
 // Add New Quote
 // ----------------------
 function addQuote() {
+    let msgContainer = document.querySelector(".msgContainer")
+    if(msgContainer){
+        container.removeChild(msgContainer)
+    }
     let newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
     let newQuoteText = document.getElementById("newQuoteText").value.trim();
 
@@ -69,9 +72,15 @@ function addQuote() {
     }
 }
 
+// ----------------------
+// Create Add Quote Form (Dynamic)
+// ----------------------
 function createAddQuoteForm() {
     let formContainer = document.createElement("div");
     formContainer.classList.add("formContainer");
+
+    let title = document.createElement("h2");
+    title.innerText = "Add a New Quote";
 
     let inputQuote = document.createElement("input");
     inputQuote.id = "newQuoteText";
@@ -87,17 +96,18 @@ function createAddQuoteForm() {
     addBtn.id = "addQuote";
     addBtn.innerText = "Add Quote";
 
+    // append elements
+    formContainer.appendChild(title);
     formContainer.appendChild(inputQuote);
     formContainer.appendChild(inputCategory);
     formContainer.appendChild(addBtn);
 
     container.appendChild(formContainer);
 
-    addQuoteBtn.addEventListener("click", addQuote);
+    // event listener for add button
+    addBtn.addEventListener("click", addQuote);
 }
 createAddQuoteForm();
-
-
 
 // ----------------------
 // Export Quotes (Download JSON)
@@ -189,4 +199,3 @@ if (lastQuote) {
     let q = JSON.parse(lastQuote);
     quoteDisplay.innerText = `"${q.text}" — (${q.category})`;
 }
-
