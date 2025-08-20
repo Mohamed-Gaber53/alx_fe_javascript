@@ -22,7 +22,6 @@ function showRandomQuote() {
 newQuote.addEventListener("click", showRandomQuote);
 
 function addQuote() {
-    // مسح أي رسالة قديمة قبل عرض جديدة
     let oldMsg = document.querySelector(".msgContainer");
     if (oldMsg) {
         container.removeChild(oldMsg);
@@ -47,8 +46,37 @@ function addQuote() {
     }
 }
 
-let addQuoteBtn = document.getElementById("addQuote");
-addQuoteBtn.addEventListener("click", addQuote);
+// ✅ إنشاء الفورم ديناميكياً
+function createAddQuoteForm() {
+    let formContainer = document.createElement("div");
+    formContainer.classList.add("formContainer");
+
+    let inputQuote = document.createElement("input");
+    inputQuote.id = "newQuoteText";
+    inputQuote.type = "text";
+    inputQuote.placeholder = "Enter a new quote";
+
+    let inputCategory = document.createElement("input");
+    inputCategory.id = "newQuoteCategory";
+    inputCategory.type = "text";
+    inputCategory.placeholder = "Enter quote category";
+
+    let addBtn = document.createElement("button");
+    addBtn.id = "addQuote";
+    addBtn.innerText = "Add Quote";
+
+    formContainer.appendChild(inputQuote);
+    formContainer.appendChild(inputCategory);
+    formContainer.appendChild(addBtn);
+
+    container.appendChild(formContainer);
+
+    // اربط الزر بالفنكشن
+    addBtn.addEventListener("click", addQuote);
+}
+
+// استدعاء الفورم لما الصفحة تفتح
+createAddQuoteForm();
 
 function message(msg, type) {
     let msgContainer = document.createElement("div");
@@ -75,5 +103,3 @@ function message(msg, type) {
         }
     }, 4000);
 }
-
-
