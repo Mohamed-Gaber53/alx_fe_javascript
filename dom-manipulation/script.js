@@ -69,6 +69,36 @@ function addQuote() {
     }
 }
 
+function createAddQuoteForm() {
+    let formContainer = document.createElement("div");
+    formContainer.classList.add("formContainer");
+
+    let inputQuote = document.createElement("input");
+    inputQuote.id = "newQuoteText";
+    inputQuote.type = "text";
+    inputQuote.placeholder = "Enter a new quote";
+
+    let inputCategory = document.createElement("input");
+    inputCategory.id = "newQuoteCategory";
+    inputCategory.type = "text";
+    inputCategory.placeholder = "Enter quote category";
+
+    let addBtn = document.createElement("button");
+    addBtn.id = "addQuote";
+    addBtn.innerText = "Add Quote";
+
+    formContainer.appendChild(inputQuote);
+    formContainer.appendChild(inputCategory);
+    formContainer.appendChild(addBtn);
+
+    container.appendChild(formContainer);
+
+    addQuoteBtn.addEventListener("click", addQuote);
+}
+createAddQuoteForm();
+
+
+
 // ----------------------
 // Export Quotes (Download JSON)
 // ----------------------
@@ -145,7 +175,6 @@ function message(msg, type) {
 // Event Listeners
 // ----------------------
 newQuoteBtn.addEventListener("click", showRandomQuote);
-addQuoteBtn.addEventListener("click", addQuote);
 exportBtn.addEventListener("click", exportToJsonFile);
 importFileInput.addEventListener("change", importFromJsonFile);
 
@@ -160,3 +189,4 @@ if (lastQuote) {
     let q = JSON.parse(lastQuote);
     quoteDisplay.innerText = `"${q.text}" — (${q.category})`;
 }
+
