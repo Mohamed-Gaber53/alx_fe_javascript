@@ -146,18 +146,31 @@ input{
   </style>
 </head>
 <body>
-    <div class="container">
-  <h1>Dynamic Quote Generator</h1>
+  <div class="container">
+    <h1>Dynamic Quote Generator</h1>
 
-  <div id="quoteDisplay">Click "Show New Quote" to see a quote</div>
-  <button id="newQuote">Show New Quote</button>
+    <!-- Quote Display -->
+    <div id="quoteDisplay">Click "Show New Quote" to see a quote</div>
+    <button id="newQuote">Show New Quote</button>
 
+    <!-- Add Quote Form -->
+    <div class="form-container" id="container">
+      <h2>Add a New Quote</h2>
+      <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+      <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+      <button id="addQuote">Add Quote</button>
+    </div>
 
-  <div class="form-container" id="container">
-    
+    <!-- Import / Export -->
+    <div class="import-export">
+      <h2>Manage Quotes</h2>
+      <button id="exportQuotes">Export Quotes</button>
+      <input type="file" id="importFile" accept=".json" />
+    </div>
   </div>
-</div>
+
   <script src="script.js"></script>
 </body>
 </html>
+
 
