@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Quote Generator</title>
+  <style>
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+ .container{
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: auto;
+    margin-right: auto;
+ }
+ /* Small */
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+/* Medium */
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+/* Large */
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+body{
+    background: #f4f4f4;
+}
+
+h1{
+    text-align: center;
+    padding: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+
+}
+
+#quoteDisplay{
+    padding: 20px;
+    margin: 20px;
+    background-color: #fff;
+    max-width: 600px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+button{
+    padding: 10px 15px;
+    margin: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    background-color: #007bff;
+color: white;
+transition: transform ease 0.3s;
+}
+
+button:hover{
+    background-color: #0056b3;
+transform: scale(1.1);
+}
+
+.form-container{
+    padding: 15px;
+    margin: 20px auto;
+    background-color: #fff;    
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    max-width: 600px;
+
+}
+
+input{
+    width: 90%;
+    margin: 5px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+.msgContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 250px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.5s ease;
+}
+
+.msgContainer.success {
+  background-color: #28a745; 
+}
+
+.msgContainer.error {
+  background-color: #dc3545; 
+}
+
+.msgText {
+  margin: 0;
+  flex: 1;
+}
+
+.closeBtn {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.closeBtn:hover {
+  color: #000;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+  </style>
+</head>
+<body>
+    <div class="container">
+  <h1>Dynamic Quote Generator</h1>
+
+  <div id="quoteDisplay">Click "Show New Quote" to see a quote</div>
+  <button id="newQuote">Show New Quote</button>
+
+
+  <div class="form-container" id="container">
+    <h2>Add a New Quote</h2>
+    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+    <button id="addQuote">Add Quote</button>
+  </div>
+</div>
+  <script src="script.js"></script>
+</body>
+</html>
