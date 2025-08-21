@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -146,3 +146,83 @@ input {
 </body>
 </html>
 
+
+ -->
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Quote Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 400px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; }
+    #quoteDisplay {
+      margin: 15px 0;
+      padding: 15px;
+      background: #eee;
+      border-radius: 8px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button {
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      font-weight: bold;
+    }
+    button:hover { background: #0056b3; }
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="container">
+    <h1>Dynamic Quote Generator</h1>
+
+    <div id="quoteDisplay">Click "Show New Quote" to see a quote</div>
+    <button id="newQuote">Show New Quote</button>
+
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter" onchange="filterQuotes()">
+      <option value="all">All Categories</option>
+    </select>
+
+    <button id="exportQuotes">Export Quotes</button>
+    <input type="file" id="importFile" accept=".json">
+
+    <hr>
+    <button id="syncNowBtn">Sync Now</button>
+    <div id="syncStatus" style="font-size:12px;color:#666;">Last sync: never</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
