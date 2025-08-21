@@ -1,4 +1,3 @@
-
 // Quotes Array
 // ----------------------
 let quotes = [
@@ -32,23 +31,20 @@ function loadQuotes() {
 }
 
 // ----------------------
-// Populate Categories
+// Populate Categories Dynamically
 // ----------------------
-function populateCategories() {
+function populateCategoriesDropdown() {
     let categories = ["all", ...new Set(quotes.map(q => q.category))];
-
-    // امسح الاختيارات القديمة
     categoryFilter.innerHTML = "";
 
-    // أضف الاختيارات
     categories.forEach(cat => {
         let option = document.createElement("option");
         option.value = cat;
-        option.innerText = cat.charAt(0).toUpperCase() + cat.slice(1);
+        option.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
         categoryFilter.appendChild(option);
     });
 
-    // استرجع الفيلتر من localStorage
+    // restore saved filter
     let savedFilter = localStorage.getItem("selectedCategory") || "all";
     categoryFilter.value = savedFilter;
 }
@@ -56,14 +52,14 @@ function populateCategories() {
 // ----------------------
 // Filter Quotes
 // ----------------------
-function filterQuotes() {
+function filterQuote() {
     let selected = categoryFilter.value;
     localStorage.setItem("selectedCategory", selected);
 
     if (selected === "all") {
-        quoteDisplay.innerText = "Showing all categories. Click 'Show New Quote'.";
+        quoteDisplay.textContent = "Showing all categories. Click 'Show New Quote'.";
     } else {
-        quoteDisplay.innerText = `Showing only "${selected}" quotes. Click 'Show New Quote'.`;
+        quoteDisplay.textContent = `Showing only "${selected}" quotes. Click 'Show New Quote'.`;
     }
 }
 
@@ -72,7 +68,7 @@ function filterQuotes() {
 // ----------------------
 function showRandomQuote() {
     if (quotes.length === 0) {
-        quoteDisplay.innerText = "No quotes available. Please add one!";
+        quoteDisplay.textContent = "No quotes available. Please add one!";
         return;
     }
 
@@ -80,15 +76,14 @@ function showRandomQuote() {
     let filteredQuotes = (selected === "all") ? quotes : quotes.filter(q => q.category === selected);
 
     if (filteredQuotes.length === 0) {
-        quoteDisplay.innerText = `No quotes found in category "${selected}".`;
+        quoteDisplay.textContent = `No quotes found in category "${selected}".`;
         return;
     }
 
     let randomIndex = Math.floor(Math.random() * filteredQuotes.length);
     let randomQuote = filteredQuotes[randomIndex];
-    quoteDisplay.innerText = `"${randomQuote.text}" — (${randomQuote.category})`;
+    quoteDisplay.textContent = `"${randomQuote.text}" — (${randomQuote.category})`;
 
-    // save last shown quote in sessionStorage
     sessionStorage.setItem("lastQuote", JSON.stringify(randomQuote));
 }
 
@@ -96,10 +91,11 @@ function showRandomQuote() {
 // Add New Quote
 // ----------------------
 function addQuote() {
-    let msgContainer = document.querySelector(".msgContainer")
-    if(msgContainer){
-        container.removeChild(msgContainer)
+    let msgContainer = document.querySelector(".msgContainer");
+    if (msgContainer) {
+        container.removeChild(msgContainer);
     }
+
     let newQuoteCategory = document.getElementById("newQuoteCategory").value.trim();
     let newQuoteText = document.getElementById("newQuoteText").value.trim();
 
@@ -107,11 +103,10 @@ function addQuote() {
         let newQuoteObj = { text: newQuoteText, category: newQuoteCategory };
         quotes.push(newQuoteObj);
 
-        saveQuotes(); // save to localStorage
-        populateCategories(); // update dropdown
+        saveQuotes();
+        populateCategoriesDropdown();
         message("New quote added successfully!", "success");
 
-        // reset form
         document.getElementById("newQuoteText").value = "";
         document.getElementById("newQuoteCategory").value = "";
     } else {
@@ -127,7 +122,7 @@ function createAddQuoteForm() {
     formContainer.classList.add("formContainer");
 
     let title = document.createElement("h2");
-    title.innerText = "Add a New Quote";
+    title.textContent = "Add a New Quote";
 
     let inputQuote = document.createElement("input");
     inputQuote.id = "newQuoteText";
@@ -141,9 +136,8 @@ function createAddQuoteForm() {
 
     let addBtn = document.createElement("button");
     addBtn.id = "addQuote";
-    addBtn.innerText = "Add Quote";
+    addBtn.textContent = "Add Quote";
 
-    // append elements
     formContainer.appendChild(title);
     formContainer.appendChild(inputQuote);
     formContainer.appendChild(inputCategory);
@@ -151,7 +145,6 @@ function createAddQuoteForm() {
 
     container.appendChild(formContainer);
 
-    // event listener for add button
     addBtn.addEventListener("click", addQuote);
 }
 createAddQuoteForm();
@@ -183,7 +176,7 @@ function importFromJsonFile(event) {
             if (Array.isArray(importedQuotes)) {
                 quotes.push(...importedQuotes);
                 saveQuotes();
-                populateCategories();
+                populateCategoriesDropdown();
                 message("Quotes imported successfully!", "success");
             } else {
                 message("Invalid file format!", "error");
@@ -204,7 +197,7 @@ function message(msg, type) {
 
     let msgP = document.createElement("p");
     msgP.classList.add("msgText");
-    msgP.innerText = msg;
+    msgP.textContent = msg;
 
     let closeBtn = document.createElement("span");
     closeBtn.innerHTML = "&times;";
@@ -235,17 +228,17 @@ function message(msg, type) {
 newQuoteBtn.addEventListener("click", showRandomQuote);
 exportBtn.addEventListener("click", exportToJsonFile);
 importFileInput.addEventListener("change", importFromJsonFile);
+categoryFilter.addEventListener("change", filterQuote);
 
 // ----------------------
 // Init
 // ----------------------
 loadQuotes();
-populateCategories();
-filterQuotes(); // apply saved filter
+populateCategoriesDropdown();
+filterQuote();
 
-// لو فيه آخر Quote محفوظ في SessionStorage، نعرضه
 let lastQuote = sessionStorage.getItem("lastQuote");
 if (lastQuote) {
     let q = JSON.parse(lastQuote);
-    quoteDisplay.innerText = `"${q.text}" — (${q.category})`;
+    quoteDisplay.textContent = `"${q.text}" — (${q.category})`;
 }
