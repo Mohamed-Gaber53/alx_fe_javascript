@@ -1,3 +1,4 @@
+
 // Quotes Array
 // ----------------------
 let quotes = [
@@ -14,6 +15,7 @@ let newQuoteBtn = document.getElementById("newQuote");
 let container = document.getElementById("container");
 let exportBtn = document.getElementById("exportQuotes");
 let importFileInput = document.getElementById("importFile");
+let categoryFilter = document.getElementById("categoryFilter");
 
 // ----------------------
 // Local Storage Helpers
@@ -30,6 +32,42 @@ function loadQuotes() {
 }
 
 // ----------------------
+// Populate Categories
+// ----------------------
+function populateCategories() {
+    let categories = ["all", ...new Set(quotes.map(q => q.category))];
+
+    // امسح الاختيارات القديمة
+    categoryFilter.innerHTML = "";
+
+    // أضف الاختيارات
+    categories.forEach(cat => {
+        let option = document.createElement("option");
+        option.value = cat;
+        option.innerText = cat.charAt(0).toUpperCase() + cat.slice(1);
+        categoryFilter.appendChild(option);
+    });
+
+    // استرجع الفيلتر من localStorage
+    let savedFilter = localStorage.getItem("selectedCategory") || "all";
+    categoryFilter.value = savedFilter;
+}
+
+// ----------------------
+// Filter Quotes
+// ----------------------
+function filterQuotes() {
+    let selected = categoryFilter.value;
+    localStorage.setItem("selectedCategory", selected);
+
+    if (selected === "all") {
+        quoteDisplay.innerText = "Showing all categories. Click 'Show New Quote'.";
+    } else {
+        quoteDisplay.innerText = `Showing only "${selected}" quotes. Click 'Show New Quote'.`;
+    }
+}
+
+// ----------------------
 // Show Random Quote
 // ----------------------
 function showRandomQuote() {
@@ -38,8 +76,16 @@ function showRandomQuote() {
         return;
     }
 
-    let randomIndex = Math.floor(Math.random() * quotes.length);
-    let randomQuote = quotes[randomIndex];
+    let selected = categoryFilter.value;
+    let filteredQuotes = (selected === "all") ? quotes : quotes.filter(q => q.category === selected);
+
+    if (filteredQuotes.length === 0) {
+        quoteDisplay.innerText = `No quotes found in category "${selected}".`;
+        return;
+    }
+
+    let randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+    let randomQuote = filteredQuotes[randomIndex];
     quoteDisplay.innerText = `"${randomQuote.text}" — (${randomQuote.category})`;
 
     // save last shown quote in sessionStorage
@@ -62,6 +108,7 @@ function addQuote() {
         quotes.push(newQuoteObj);
 
         saveQuotes(); // save to localStorage
+        populateCategories(); // update dropdown
         message("New quote added successfully!", "success");
 
         // reset form
@@ -136,6 +183,7 @@ function importFromJsonFile(event) {
             if (Array.isArray(importedQuotes)) {
                 quotes.push(...importedQuotes);
                 saveQuotes();
+                populateCategories();
                 message("Quotes imported successfully!", "success");
             } else {
                 message("Invalid file format!", "error");
@@ -192,6 +240,8 @@ importFileInput.addEventListener("change", importFromJsonFile);
 // Init
 // ----------------------
 loadQuotes();
+populateCategories();
+filterQuotes(); // apply saved filter
 
 // لو فيه آخر Quote محفوظ في SessionStorage، نعرضه
 let lastQuote = sessionStorage.getItem("lastQuote");
